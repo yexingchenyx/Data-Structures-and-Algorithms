@@ -58,17 +58,44 @@ void Insert(Node<T>** list, T data, int id) {
 
 template<typename T>
 void Delete(Node<T>** list, int id) {
+    Node<T>* head = *list;
 
+    if (id == 0) {
+        Node<T>* current = head;
+        Node<T>* next = current->next;
+        if (next == head) {
+            *list = NULL;
+            free(current);
+        } else {
+            Node<T>* tail = head;
+            while(tail->next != head) {
+                tail = tail->next;
+            }
+            *list = next;
+            tail->next = next;
+            free(current);
+        }
+    } else {
+        Node<T>* prev = head;
+        for (int i = 0; i < id - 1; ++i) {
+            prev = prev->next;
+        }
+        Node<T>* current = prev->next;
+        Node<T>* next = current->next;
+        prev->next = next;
+        free(current);
+    }
 }
 
 int main(int argc, char** argv) {
     Node<int>* list[1] = {NULL};
+    Insert(list, 1, 0);
+    Insert(list, 3, 1);
     Insert(list, 0, 0);
-    Insert(list, 1, 1);
     Insert(list, 2, 2);
 
     Delete(list, 0);
-    Delete(list, 1);
+    Delete(list, 2);
 
     printf("length: %d\n", Length(list));
 
