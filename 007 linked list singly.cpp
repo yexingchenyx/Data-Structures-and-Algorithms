@@ -70,6 +70,7 @@ void Free(Node<T>** list) {
     *list = NULL;
 }
 
+#ifndef IGNORE_MAIN
 int main(int argc, char** argv) {
 
     Node<int>* list[1] = {NULL};
@@ -89,3 +90,4 @@ int main(int argc, char** argv) {
     }
     printf("\n");
 }
+#endif
