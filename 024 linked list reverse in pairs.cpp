@@ -5,7 +5,19 @@
 
 template <typename T>
 Node<T>* ReversePairRecursive(Node<T>* head) {
-    return NULL;
+    if (!head || !head->next) {
+        return head;
+    } else {
+        Node<T>* current = head;
+        Node<T>* next = head->next;
+        Node<T>* next_next = head->next->next;
+
+        head = next;
+        head->next = current;
+        head->next->next = ReversePairRecursive(next_next);
+
+        return head;
+    }
 }
 
 template <typename T>
@@ -17,7 +29,7 @@ int main(int argc, char** argv) {
 
     Node<int>* list[1] = {NULL};
 
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 6; ++i) {
         Insert(list, i, i);
     }
 
