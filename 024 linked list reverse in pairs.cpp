@@ -22,7 +22,32 @@ Node<T>* ReversePairRecursive(Node<T>* head) {
 
 template <typename T>
 Node<T>* ReversePairIterative(Node<T>* head) {
-    return NULL;
+    Node<T>* new_head = NULL;
+    Node<T>* prev = NULL;
+    Node<T>* current = head;
+    while (current && current->next)
+    {
+        Node<T>* next = current->next;
+        Node<T>* next_next = current->next->next;
+
+        if (prev) {
+            prev->next = next;
+        }
+
+        if (!new_head) {
+            new_head = next;
+        }
+
+        next->next = current;
+
+        current->next = next_next;
+
+        prev = current;
+
+        current = next_next;
+    }
+
+    return new_head;
 }
 
 int main(int argc, char** argv) {
@@ -36,6 +61,16 @@ int main(int argc, char** argv) {
     Node<int>* head = ReversePairRecursive(*list);
 
     Node<int>* current = head;
+    while (current)
+    {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+
+    head = ReversePairIterative(head);
+    
+    current = head;
     while (current)
     {
         printf("%d ", current->data);

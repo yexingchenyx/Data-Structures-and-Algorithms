@@ -87,6 +87,7 @@ void Delete(Node<T>** list, int id) {
     }
 }
 
+#ifndef IGNORE_MAIN
 int main(int argc, char** argv) {
     Node<int>* list[1] = {NULL};
     Insert(list, 1, 0);
@@ -109,3 +110,4 @@ int main(int argc, char** argv) {
     }
     printf("\n");
 }
+#endif
