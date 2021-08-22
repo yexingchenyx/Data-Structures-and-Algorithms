@@ -12,8 +12,64 @@
  */
 
 template <typename T>
-void ReverseBlockOfK(Node<T>** list, int K) {
+Node<T>* GetKPlusOneThNode(int K, Node<T>* head) {
+    if (!head)
+        return head;
 
+    Node<T>* Kth = head;
+    for (int i = 0; i < K; ++i) {
+        if (!Kth)
+            return head->next;
+        Kth = Kth->next;
+    }
+
+    return Kth;
+}
+
+template <typename T>
+bool HasKNodes(Node<T>* head, int K) {
+    int i = 0;
+    for (i = 0; head && (i < K); i++, head = head->next);
+    return i == K;
+}
+
+template <typename T>
+void ReverseBlockOfK(Node<T>** list, int K) {
+    if (K == 0 || K == 1)
+        return;
+
+    Node<T>* head = *list;
+    Node<T>* current = head;
+    Node<T>* newHead = NULL;
+
+    if (HasKNodes(current, K))
+        newHead = GetKPlusOneThNode(K - 1, current);
+    else
+        newHead = head;
+
+    Node<T>* prev_block_first = NULL;
+    Node<T>* block_first = NULL;
+    Node<T>* block_last = NULL;
+    Node<T>* temp = NULL;
+    Node<T>* next = NULL;
+    while (current && HasKNodes(current, K))
+    {
+        block_first = current;
+        block_last = GetKPlusOneThNode(K - 1, current);
+
+        temp = GetKPlusOneThNode(K, current);
+        for (int i = 0; i < K; ++i) {
+            next = current->next;
+            current->next = temp;
+            temp = current;
+            current = next;
+        }
+        if (prev_block_first)
+            prev_block_first->next = block_last;
+        prev_block_first = block_first;
+    }
+    
+    *list = newHead;
 }
 
 int main(int argc, char** argv) {
