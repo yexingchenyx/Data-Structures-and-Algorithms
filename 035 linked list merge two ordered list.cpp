@@ -5,7 +5,32 @@
 
 template <typename T>
 Node<T>* AlternateMerge(Node<T>** l1, Node<T>** l2) {
-    return NULL;
+    Node<T>* c1 = *l1;
+    Node<T>* c2 = *l2;
+
+    Node<T>* head = (Node<T>*)malloc(sizeof(Node<T>));
+    head->next = NULL;
+    Node<T>* cur = head;
+
+    while (c1 && c2)
+    {
+        cur->next = c1;
+        cur = cur->next;
+        c1 = c1->next;
+        cur->next = c2;
+        cur = cur->next;
+        c2 = c2->next;
+    }
+
+    if (c1)
+        cur->next = c1;
+    else
+        cur->next = c2;
+
+    cur = head->next;
+    free(head);
+
+    return cur;
 }
 
 
