@@ -45,6 +45,7 @@ class DynArrayStack {
         int top_;
 };
 
+#ifndef IGNORE_MAIN
 int main(int argc, char** argv) {
     DynArrayStack<int> stack;
     for (int i = 0; i < 20; ++i)
@@ -57,3 +58,4 @@ int main(int argc, char** argv) {
     }
     printf("\n");
 }
+#endif
