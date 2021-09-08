@@ -3,7 +3,8 @@
 #undef IGNORE_MAIN
 #include <iostream>
 #include <string>
-
+#include <set>
+#include <map>
 
 /**
  * infix        prefix      postfix
@@ -14,7 +15,51 @@
 
 
 std::string InfixToPostfix(const std::string& str) {
-    return str;
+    std::set<char> operators = {'+', '-', '*', '/', '(', ')'};
+    std::map<char, int> operatorPriority = {{'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'(', 3}, {')', 3}};
+    std::string rnt;
+
+    DynArrayStack<char> stack;
+
+    for (char a : str) {
+        if (!operators.count(a)) {
+            rnt.push_back(a);
+        } else if (a == ')') {
+            char b = stack.Pop();
+            while (b != '(')
+            {
+                rnt.push_back(b);
+                b = stack.Pop();
+            }
+        } else {
+            while (true) {
+                if (stack.IsEmpty())
+                    break;
+                
+                char b = stack.Pop();
+
+                if (b == '(') {
+                    stack.Push(b);
+                    break;
+                }
+
+                if (operatorPriority[b] < operatorPriority[a]) {
+                    stack.Push(b);
+                    break;
+                }
+                
+                rnt.push_back(b);
+            }
+            stack.Push(a);
+        } 
+    }
+
+    while (!stack.IsEmpty())
+    {
+        rnt.push_back(stack.Pop());
+    }
+    
+    return rnt;
 }
 
 
