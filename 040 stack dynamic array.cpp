@@ -29,6 +29,13 @@ class DynArrayStack {
             array_[++top_] = data;
         }
 
+        T Top() {
+            if (IsEmpty())
+                throw "Underflow";
+
+            return array_[top_];
+        }
+
         T Pop() {
             if (IsEmpty())
                 throw "Underflow";
